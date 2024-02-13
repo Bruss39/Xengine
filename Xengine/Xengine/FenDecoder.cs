@@ -1,6 +1,6 @@
 ﻿public class FenDecoder
 {
-    public static readonly Dictionary<char, int> PieceChar = new()
+    public static readonly Dictionary<char, int> PieceByChar = new()
     {
         ['R'] = Piece.WhiteRook,
         ['N'] = Piece.WhiteKnight,
@@ -42,7 +42,7 @@
 
                 else
                 {
-                    int piece = PieceChar[letter];
+                    int piece = PieceByChar[letter];
 
                     SetCurrentPiece(piece);
 
