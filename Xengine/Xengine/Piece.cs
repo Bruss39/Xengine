@@ -17,5 +17,4 @@
     public const int BlackPawn = 12;
 
 
-    public static bool IsWhite(int piece) => piece <= 6;
 }

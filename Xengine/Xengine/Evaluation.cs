@@ -16,4 +16,30 @@ public class Evaluation
         [Piece.BlackQueen]  = 9,
         [Piece.BlackPawn]   = 1
     };
+
+
+    public static int Evaluate()
+    {
+        int score = 0;
+
+        for (int x = 0; x < 8; x++)
+        {
+            for (int y = 0; y < 8; y++)
+            {
+                int piece = Board.Pieces[x, y];
+
+                if (piece == Piece.Empty) continue;
+                if (piece.IsKing()) continue;
+
+
+                if (piece.IsWhite())
+                    score += PieceValues[piece];
+
+                else 
+                    score -= PieceValues[piece];
+            }
+        }
+
+        return score;
+    }
 }
