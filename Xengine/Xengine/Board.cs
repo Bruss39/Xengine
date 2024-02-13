@@ -7,5 +7,9 @@ public class Board
 
     public static bool IsOpponentTurn = false;
 
-    // public static List GenerateAllMoves()
+
+    //public static List<Move> GenerateAllMoves()
+    //{
+
+    //}
 }
