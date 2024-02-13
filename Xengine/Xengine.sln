@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xengine", "Xengine\Xengine.csproj", "{31FD0E04-7BBD-445C-B23A-37B10EF18F99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31FD0E04-7BBD-445C-B23A-37B10EF18F99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31FD0E04-7BBD-445C-B23A-37B10EF18F99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31FD0E04-7BBD-445C-B23A-37B10EF18F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31FD0E04-7BBD-445C-B23A-37B10EF18F99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E398E734-998B-4C65-93CD-659D4E24E455}
+	EndGlobalSection
+EndGlobal
