@@ -19,7 +19,7 @@
     // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
     public static void DecodeFen(string fen)
     {
-        (int X, int Y) pos = (0, 0);
+        Coordinate pos = new(0, 0);
         int section = 0;
 
         foreach (char letter in fen)
