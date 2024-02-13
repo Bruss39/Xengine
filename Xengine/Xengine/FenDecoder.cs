@@ -26,30 +26,27 @@
         {
             pos.X++;
 
-            if (letter == ' ')
-            {
-                section++;
-            }
+            if (letter == ' ') section++;
 
-            else if(letter == '/')
-            {
+            else if(letter == '/') pos.Y++;
 
-            }
-
-            else if (letter == '-')
-            {
-
-            }
+            else if (letter == '-') { }
 
             else if (char.IsDigit(letter))
             {
-
+                pos.X += (int)char.GetNumericValue(letter);
             }
 
             else
             {
                 int piece = PieceChar[letter];
+
+                SetCurrentPiece(piece);
             }
         }
+
+
+        void SetCurrentPiece(int piece) 
+            => Board.Pieces[pos.X, pos.Y] = piece;
     }
 }
