@@ -24,24 +24,34 @@
 
         foreach (char letter in fen)
         {
-            pos.X++;
+            if (section > 0) break;
 
-            if (letter == ' ') section++;
 
-            else if(letter == '/') pos.Y++;
-
-            else if (letter == '-') { }
-
-            else if (char.IsDigit(letter))
-            {
-                pos.X += (int)char.GetNumericValue(letter);
-            }
+            if (letter == '/') pos.Y++;
 
             else
             {
-                int piece = PieceChar[letter];
+                if (letter == ' ') section++;
 
-                SetCurrentPiece(piece);
+                else if (letter == '-') { }
+
+                else if (char.IsDigit(letter))
+                {
+                    pos.X += (int)char.GetNumericValue(letter);
+                }
+
+                else
+                {
+                    int piece = PieceChar[letter];
+
+                    SetCurrentPiece(piece);
+
+                    Console.WriteLine($"{pos} {piece}");
+                }
+
+                pos.X++;
+
+                if (pos.X >= 8) pos.X = 0;
             }
         }
 
