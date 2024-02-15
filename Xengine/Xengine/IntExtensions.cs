@@ -1,6 +1,6 @@
 ﻿public static class IntExtensions
 {
-    public static bool IsWhite(this int piece) => piece <= 6;
+    public static bool IsWhite(this int piece) => piece <= 6 && piece != 0;
 
 
     public static bool IsBlack(this int piece) => piece > 6;

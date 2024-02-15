@@ -37,7 +37,7 @@
 
                 else if (char.IsDigit(letter))
                 {
-                    pos.X += (int)char.GetNumericValue(letter);
+                    pos.X += (int)char.GetNumericValue(letter) - 1;
                 }
 
                 else
@@ -45,8 +45,6 @@
                     int piece = PieceByChar[letter];
 
                     SetCurrentPiece(piece);
-
-                    Console.WriteLine($"{pos} {piece}");
                 }
 
                 pos.X++;
@@ -56,7 +54,7 @@
         }
 
 
-        void SetCurrentPiece(int piece) 
+        void SetCurrentPiece(int piece)
             => Board.Pieces[pos.X, pos.Y] = piece;
     }
 }

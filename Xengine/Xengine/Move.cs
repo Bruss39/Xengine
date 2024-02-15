@@ -8,4 +8,7 @@
         Start = start;
         Target = target;
     }
+
+
+    public override string ToString() => $"{Start}{Target}";
 }

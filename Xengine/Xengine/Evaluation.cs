@@ -33,9 +33,11 @@ public class Evaluation
 
 
                 if (piece.IsWhite())
+                    // Se score positivo, e' in vantaggio il bianco.
                     score += PieceValues[piece];
 
-                else 
+                else if (piece.IsBlack())
+                    // Se score negativo, e' in vantaggio il nero.
                     score -= PieceValues[piece];
             }
         }

@@ -27,21 +27,22 @@ public class Board
         switch (Pieces[pos.X, pos.Y])
         {
             case Piece.WhitePawn:
-                // Se e' libera la posizione sopra, si puo' muovere.
+                // Se la posizione sopra e' libera, si puo' muovere.
                 if (IsEmpty(new(pos.X, pos.Y - 1)))
                 {
                     moves.Add(new(pos, new(pos.X, pos.Y - 1)));
 
+                    // Se 2 posizioni sopra e' libero, si puo' muovere.
                     if (pos.Y == 6 && IsEmpty(new(pos.X, pos.Y - 2)))
                     {
                         moves.Add(new(pos, new(pos.X, pos.Y - 2)));
                     }
                 }
 
-                if (Pieces[pos.X - 1, pos.Y - 1].IsBlack())
+                if (pos.X > 0 && Pieces[pos.X - 1, pos.Y - 1].IsBlack())
                     moves.Add(new(pos, new(pos.X - 1, pos.Y - 1)));
 
-                if (Pieces[pos.X + 1, pos.Y - 1].IsBlack())
+                if (pos.X < 7 && Pieces[pos.X + 1, pos.Y - 1].IsBlack())
                     moves.Add(new(pos, new(pos.X + 1, pos.Y - 1)));
 
                 break;
