@@ -7,4 +7,7 @@
 
 
     public static bool IsKing(this int piece) => piece == Piece.WhiteKing || piece == Piece.BlackKing;
+
+
+    public static bool IsEmpty(Coordinate pos) => Board.Pieces[pos.X, pos.Y] == Piece.Empty;
 }

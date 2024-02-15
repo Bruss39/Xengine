@@ -28,12 +28,12 @@ public class Board
         {
             case Piece.WhitePawn:
                 // Se la posizione sopra e' libera, si puo' muovere.
-                if (IsEmpty(new(pos.X, pos.Y - 1)))
+                if (IntExtensions.IsEmpty(new(pos.X, pos.Y - 1)))
                 {
                     moves.Add(new(pos, new(pos.X, pos.Y - 1)));
 
                     // Se 2 posizioni sopra e' libero, si puo' muovere.
-                    if (pos.Y == 6 && IsEmpty(new(pos.X, pos.Y - 2)))
+                    if (pos.Y == 6 && IntExtensions.IsEmpty(new(pos.X, pos.Y - 2)))
                     {
                         moves.Add(new(pos, new(pos.X, pos.Y - 2)));
                     }
@@ -44,6 +44,36 @@ public class Board
 
                 if (pos.X < 7 && Pieces[pos.X + 1, pos.Y - 1].IsBlack())
                     moves.Add(new(pos, new(pos.X + 1, pos.Y - 1)));
+
+                break;
+
+
+            case Piece.WhiteRook:
+
+                List<Move> possibleMovesX = new();
+                List<Move> possibleMovesY = new();
+
+                foreach (int position in Enumerable.Range(0, 8))
+                {
+                    if (position == pos.X) continue;
+
+                    // X rows.
+                    if (IntExtensions.IsEmpty(new(position, pos.Y)))
+                    {
+                        Console.WriteLine($"{position} in {pos.Y}Y is empty.");
+                        // if (position < pos.X)
+                        //     foreach (int num in Enumerable.Range(position + 1, pos.X))
+                        //         if (num > 0)
+                        //             possibleMovesX.Add();
+                    }
+
+                    // Y columns.
+                    if (IntExtensions.IsEmpty(new(pos.X, position)))
+                    {
+                        Console.WriteLine($"{position} in {pos.X}X is empty.");
+
+                    }
+                }
 
                 break;
         }
@@ -65,6 +95,4 @@ public class Board
 
         return result;
     }
-
-    private static bool IsEmpty(Coordinate pos) => Pieces[pos.X, pos.Y] == Piece.Empty;
 }
