@@ -49,30 +49,81 @@ public class Board
 
 
             case Piece.WhiteRook:
-
-                List<Move> possibleMovesX = new();
-                List<Move> possibleMovesY = new();
-
-                foreach (int position in Enumerable.Range(0, 8))
+                // 33 <- example pos
+                // X.
+                while (true)
                 {
-                    if (position == pos.X) continue;
-
-                    // X rows.
-                    if (IntExtensions.IsEmpty(new(position, pos.Y)))
+                    for (int i = 1; i <= 9; i++)
                     {
-                        Console.WriteLine($"{position} in {pos.Y}Y is empty.");
-                        // if (position < pos.X)
-                        //     foreach (int num in Enumerable.Range(position + 1, pos.X))
-                        //         if (num > 0)
-                        //             possibleMovesX.Add();
+                        if (pos.X + i <= 7)
+                        {
+                            Coordinate position = new(pos.X + i, pos.Y);
+                            if (!IntExtensions.IsEmpty(position))
+                                break;
+                            else
+                                moves.Add(new(pos, position));
+                        }
+                        else
+                            break;
                     }
+                    break;
+                }
 
-                    // Y columns.
-                    if (IntExtensions.IsEmpty(new(pos.X, position)))
+                // -Y.
+                while (true)
+                {
+                    for (int i = 1; i <= 9; i++)
                     {
-                        Console.WriteLine($"{position} in {pos.X}X is empty.");
-
+                        if (pos.Y + i <= 7)
+                        {
+                            Coordinate position = new(pos.X, pos.Y + i);
+                            if (!IntExtensions.IsEmpty(position))
+                                break;
+                            else
+                                moves.Add(new(pos, position));
+                        }
+                        else
+                            break;
                     }
+                    break;
+                }
+
+                // -X.
+                while (true)
+                {
+                    for (int i = 1; i <= 8; i++)
+                    {
+                        if (pos.X - i >= 0)
+                        {
+                            Coordinate position = new(pos.X - i, pos.Y);
+                            if (!IntExtensions.IsEmpty(position))
+                                break;
+                            else
+                                moves.Add(new(pos, position));
+                        }
+                        else
+                            break;
+                    }
+                    break;
+                }
+
+                // Y.
+                while (true)
+                {
+                    for (int i = 1; i <= 8; i++)
+                    {
+                        if (pos.Y - i >= 0)
+                        {
+                            Coordinate position = new(pos.X, pos.Y - i);
+                            if (!IntExtensions.IsEmpty(position))
+                                break;
+                            else
+                                moves.Add(new(pos, position));
+                        }
+                        else
+                            break;
+                    }
+                    break;
                 }
 
                 break;

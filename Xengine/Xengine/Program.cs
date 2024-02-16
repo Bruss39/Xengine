@@ -1,6 +1,6 @@
 ﻿// Set initial position.
 Console.Write("Loading board... ");
-FenDecoder.DecodeFen("8/3p4/8/2kR1Q2/8/8/3b4/8 w - - 1 1");
+FenDecoder.DecodeFen("R7/8/8/8/8/8/8/8 w - - 0 1");
 Console.WriteLine("Done!");
 
 Console.Write("Evaluating position... ");
