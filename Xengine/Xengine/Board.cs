@@ -127,6 +127,24 @@ public class Board
                 }
 
                 break;
+
+
+            case Piece.WhiteBishop:
+                List<Coordinate> movesToAdd = new();
+
+                // <^
+                movesToAdd.AddRange(WhiteMoveVerify(-1, -1, pos));
+                // ^>
+                movesToAdd.AddRange(WhiteMoveVerify(+1, -1, pos));
+                // v>
+                movesToAdd.AddRange(WhiteMoveVerify(+1, +1, pos));
+                // <v
+                movesToAdd.AddRange(WhiteMoveVerify(-1, +1, pos));
+
+                foreach (Coordinate elm in movesToAdd)
+                    moves.Add(new(pos, elm));
+
+                break;
         }
 
         return moves;
@@ -143,7 +161,35 @@ public class Board
                 if (Pieces[x, y] != Piece.Empty) result.Add(new(x, y));
             }
         }
-
         return result;
+    }
+
+
+    private static bool OffTheChessBoard(Coordinate position)
+    {
+        if (position.X >= 0 && position.X <= 7 && position.Y >= 0 && position.Y <= 7)
+            return true;
+        else
+            return false;
+    }
+
+
+    private static List<Coordinate> WhiteMoveVerify(int addToX, int addToY, Coordinate position)
+    {
+        List<Coordinate> movesToAdd = new();
+
+        while (true)
+        {
+            position.X += addToX;
+            position.Y += addToY;
+
+            if (OffTheChessBoard(position))
+            {
+                if (IntExtensions.IsEmpty(position))
+                    movesToAdd.Add(position);
+            }
+            else
+                return movesToAdd;
+        }
     }
 }
