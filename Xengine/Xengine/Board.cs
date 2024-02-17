@@ -38,110 +38,46 @@ public class Board
                         moves.Add(new(pos, new(pos.X, pos.Y - 2)));
                     }
                 }
-
-                if (pos.X > 0 && Pieces[pos.X - 1, pos.Y - 1].IsBlack())
+                if (pos.X > 0 && Pieces[pos.X - 1, pos.Y - 1].IsBlack() && !Pieces[pos.X - 1, pos.Y - 1].IsKing())
                     moves.Add(new(pos, new(pos.X - 1, pos.Y - 1)));
 
-                if (pos.X < 7 && Pieces[pos.X + 1, pos.Y - 1].IsBlack())
+                if (pos.X < 7 && Pieces[pos.X + 1, pos.Y - 1].IsBlack() && !Pieces[pos.X + 1, pos.Y - 1].IsKing())
                     moves.Add(new(pos, new(pos.X + 1, pos.Y - 1)));
 
                 break;
 
 
             case Piece.WhiteRook:
-                // 33 <- example pos
-                // X.
-                while (true)
-                {
-                    for (int i = 1; i <= 9; i++)
-                    {
-                        if (pos.X + i <= 7)
-                        {
-                            Coordinate position = new(pos.X + i, pos.Y);
-                            if (!IntExtensions.IsEmpty(position))
-                                break;
-                            else
-                                moves.Add(new(pos, position));
-                        }
-                        else
-                            break;
-                    }
-                    break;
-                }
+                List<Coordinate> movesToAddWhiteRook = new();
 
-                // -Y.
-                while (true)
-                {
-                    for (int i = 1; i <= 9; i++)
-                    {
-                        if (pos.Y + i <= 7)
-                        {
-                            Coordinate position = new(pos.X, pos.Y + i);
-                            if (!IntExtensions.IsEmpty(position))
-                                break;
-                            else
-                                moves.Add(new(pos, position));
-                        }
-                        else
-                            break;
-                    }
-                    break;
-                }
+                // <
+                movesToAddWhiteRook.AddRange(WhiteMoveVerify(-1, 0, pos));
+                // >
+                movesToAddWhiteRook.AddRange(WhiteMoveVerify(+1, 0, pos));
+                // v
+                movesToAddWhiteRook.AddRange(WhiteMoveVerify(0, +1, pos));
+                // ^
+                movesToAddWhiteRook.AddRange(WhiteMoveVerify(0, -1, pos));
 
-                // -X.
-                while (true)
-                {
-                    for (int i = 1; i <= 8; i++)
-                    {
-                        if (pos.X - i >= 0)
-                        {
-                            Coordinate position = new(pos.X - i, pos.Y);
-                            if (!IntExtensions.IsEmpty(position))
-                                break;
-                            else
-                                moves.Add(new(pos, position));
-                        }
-                        else
-                            break;
-                    }
-                    break;
-                }
-
-                // Y.
-                while (true)
-                {
-                    for (int i = 1; i <= 8; i++)
-                    {
-                        if (pos.Y - i >= 0)
-                        {
-                            Coordinate position = new(pos.X, pos.Y - i);
-                            if (!IntExtensions.IsEmpty(position))
-                                break;
-                            else
-                                moves.Add(new(pos, position));
-                        }
-                        else
-                            break;
-                    }
-                    break;
-                }
+                foreach (Coordinate elm in movesToAddWhiteRook)
+                    moves.Add(new(pos, elm));
 
                 break;
 
 
             case Piece.WhiteBishop:
-                List<Coordinate> movesToAdd = new();
+                List<Coordinate> movesToAddWhiteBishop = new();
 
                 // <^
-                movesToAdd.AddRange(WhiteMoveVerify(-1, -1, pos));
+                movesToAddWhiteBishop.AddRange(WhiteMoveVerify(-1, -1, pos));
                 // ^>
-                movesToAdd.AddRange(WhiteMoveVerify(+1, -1, pos));
+                movesToAddWhiteBishop.AddRange(WhiteMoveVerify(+1, -1, pos));
                 // v>
-                movesToAdd.AddRange(WhiteMoveVerify(+1, +1, pos));
+                movesToAddWhiteBishop.AddRange(WhiteMoveVerify(+1, +1, pos));
                 // <v
-                movesToAdd.AddRange(WhiteMoveVerify(-1, +1, pos));
+                movesToAddWhiteBishop.AddRange(WhiteMoveVerify(-1, +1, pos));
 
-                foreach (Coordinate elm in movesToAdd)
+                foreach (Coordinate elm in movesToAddWhiteBishop)
                     moves.Add(new(pos, elm));
 
                 break;
@@ -189,8 +125,8 @@ public class Board
                 if (IntExtensions.IsEmpty(position))
                     movesToAdd.Add(position);
 
-                // E se posizione occupata e' nera.
-                else if (Pieces[position.X, position.Y].IsBlack())
+                // E se posizione occupata e' nera e non e' un Re.
+                else if (Pieces[position.X, position.Y].IsBlack() && !Pieces[position.X, position.Y].IsKing())
                 {
                     movesToAdd.Add(position);
                     return movesToAdd;
