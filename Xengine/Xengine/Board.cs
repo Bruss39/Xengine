@@ -185,8 +185,18 @@ public class Board
 
             if (OffTheChessBoard(position))
             {
+                // Se posizione e' vuota.
                 if (IntExtensions.IsEmpty(position))
                     movesToAdd.Add(position);
+
+                // E se posizione occupata e' nera.
+                else if (Pieces[position.X, position.Y].IsBlack())
+                {
+                    movesToAdd.Add(position);
+                    return movesToAdd;
+                }
+                else
+                    return movesToAdd;
             }
             else
                 return movesToAdd;
