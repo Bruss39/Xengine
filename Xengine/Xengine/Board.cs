@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class Board
 {
@@ -38,11 +39,19 @@ public class Board
                         moves.Add(new(pos, new(pos.X, pos.Y - 2)));
                     }
                 }
-                if (pos.X > 0 && Pieces[pos.X - 1, pos.Y - 1].IsBlack() && !Pieces[pos.X - 1, pos.Y - 1].IsKing())
+                if (pos.X > 0 && Pieces[pos.X - 1, pos.Y - 1].IsBlack())
+                {
                     moves.Add(new(pos, new(pos.X - 1, pos.Y - 1)));
+                    if (Pieces[pos.X - 1, pos.Y - 1].IsKing())
+                        KingEatenError(pos, new(pos.X - 1, pos.Y - 1));
+                }
 
-                if (pos.X < 7 && Pieces[pos.X + 1, pos.Y - 1].IsBlack() && !Pieces[pos.X + 1, pos.Y - 1].IsKing())
+                if (pos.X < 7 && Pieces[pos.X + 1, pos.Y - 1].IsBlack())
+                {
                     moves.Add(new(pos, new(pos.X + 1, pos.Y - 1)));
+                    if (Pieces[pos.X + 1, pos.Y - 1].IsKing())
+                        KingEatenError(pos, new(pos.X + 1, pos.Y - 1));
+                }
 
                 break;
 
@@ -113,6 +122,7 @@ public class Board
     private static List<Coordinate> WhiteMoveVerify(int addToX, int addToY, Coordinate position)
     {
         List<Coordinate> movesToAdd = new();
+        Coordinate pos = position;
 
         while (true)
         {
@@ -125,9 +135,11 @@ public class Board
                 if (IntExtensions.IsEmpty(position))
                     movesToAdd.Add(position);
 
-                // E se posizione occupata e' nera e non e' un Re.
-                else if (Pieces[position.X, position.Y].IsBlack() && !Pieces[position.X, position.Y].IsKing())
+                // Se posizione occupata e' nera.
+                else if (Pieces[position.X, position.Y].IsBlack())
                 {
+                    if (Pieces[position.X, position.Y].IsKing())
+                        KingEatenError(pos, new(position.X, position.Y));
                     movesToAdd.Add(position);
                     return movesToAdd;
                 }
@@ -137,5 +149,11 @@ public class Board
             else
                 return movesToAdd;
         }
+    }
+
+
+    private static void KingEatenError(Coordinate eaterPosition, Coordinate kingPosition)
+    {
+        Console.WriteLine($"\nThe King cannot be eaten by {eaterPosition} in {kingPosition}!");
     }
 }
