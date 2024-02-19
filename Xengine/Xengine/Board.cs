@@ -90,6 +90,33 @@ public class Board
                     moves.Add(new(pos, elm));
 
                 break;
+
+
+            case Piece.WhiteQueen:
+                List<Coordinate> movesToAddWhiteQueen = new();
+
+                // <
+                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(-1, 0, pos));
+                // >
+                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(+1, 0, pos));
+                // v
+                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(0, +1, pos));
+                // ^
+                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(0, -1, pos));
+
+                // <^
+                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(-1, -1, pos));
+                // ^>
+                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(+1, -1, pos));
+                // v>
+                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(+1, +1, pos));
+                // <v
+                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(-1, +1, pos));
+
+                foreach (Coordinate elm in movesToAddWhiteQueen)
+                    moves.Add(new(pos, elm));
+
+                break;
         }
 
         return moves;
