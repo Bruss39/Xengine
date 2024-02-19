@@ -24,6 +24,8 @@ public class Board
     private static List<Move> GenerateMovesForPiece(Coordinate pos)
     {
         List<Move> moves = new();
+        List<Tuple<int, int>> orthogonal = new() {new(-1, 0), new(1, 0), new(0, 1), new(0, -1)};
+        List<Tuple<int, int>> diagonal = new() {new(-1, -1), new(1, -1), new(1, 1), new(-1, 1)};
 
         switch (Pieces[pos.X, pos.Y])
         {
@@ -57,16 +59,11 @@ public class Board
 
 
             case Piece.WhiteRook:
+            case Piece.BlackRook:
                 List<Coordinate> movesToAddWhiteRook = new();
 
-                // <
-                movesToAddWhiteRook.AddRange(WhiteMoveVerify(-1, 0, pos));
-                // >
-                movesToAddWhiteRook.AddRange(WhiteMoveVerify(+1, 0, pos));
-                // v
-                movesToAddWhiteRook.AddRange(WhiteMoveVerify(0, +1, pos));
-                // ^
-                movesToAddWhiteRook.AddRange(WhiteMoveVerify(0, -1, pos));
+                foreach (Tuple<int, int> tuple in orthogonal)
+                    movesToAddWhiteRook.AddRange(WhiteMoveVerify(tuple.Item1, tuple.Item2, pos));
 
                 foreach (Coordinate elm in movesToAddWhiteRook)
                     moves.Add(new(pos, elm));
@@ -75,16 +72,11 @@ public class Board
 
 
             case Piece.WhiteBishop:
+            case Piece.BlackBishop:
                 List<Coordinate> movesToAddWhiteBishop = new();
 
-                // <^
-                movesToAddWhiteBishop.AddRange(WhiteMoveVerify(-1, -1, pos));
-                // ^>
-                movesToAddWhiteBishop.AddRange(WhiteMoveVerify(+1, -1, pos));
-                // v>
-                movesToAddWhiteBishop.AddRange(WhiteMoveVerify(+1, +1, pos));
-                // <v
-                movesToAddWhiteBishop.AddRange(WhiteMoveVerify(-1, +1, pos));
+                foreach (Tuple<int, int> tuple in diagonal)
+                    movesToAddWhiteBishop.AddRange(WhiteMoveVerify(tuple.Item1, tuple.Item2, pos));
 
                 foreach (Coordinate elm in movesToAddWhiteBishop)
                     moves.Add(new(pos, elm));
@@ -93,25 +85,14 @@ public class Board
 
 
             case Piece.WhiteQueen:
+            case Piece.BlackQueen:
                 List<Coordinate> movesToAddWhiteQueen = new();
 
-                // <
-                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(-1, 0, pos));
-                // >
-                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(+1, 0, pos));
-                // v
-                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(0, +1, pos));
-                // ^
-                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(0, -1, pos));
+                foreach (Tuple<int, int> tuple in orthogonal)
+                    movesToAddWhiteQueen.AddRange(WhiteMoveVerify(tuple.Item1, tuple.Item2, pos));
 
-                // <^
-                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(-1, -1, pos));
-                // ^>
-                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(+1, -1, pos));
-                // v>
-                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(+1, +1, pos));
-                // <v
-                movesToAddWhiteQueen.AddRange(WhiteMoveVerify(-1, +1, pos));
+                foreach (Tuple<int, int> tuple in diagonal)
+                    movesToAddWhiteQueen.AddRange(WhiteMoveVerify(tuple.Item1, tuple.Item2, pos));
 
                 foreach (Coordinate elm in movesToAddWhiteQueen)
                     moves.Add(new(pos, elm));
@@ -181,6 +162,6 @@ public class Board
 
     private static void KingEatenError(Coordinate eaterPosition, Coordinate kingPosition)
     {
-        Console.WriteLine($"\nThe King cannot be eaten by {eaterPosition} in {kingPosition}!");
+        Console.WriteLine($"\nThe King cannot be taken by {eaterPosition} in {kingPosition}!");
     }
 }
