@@ -63,7 +63,7 @@ public class Board
                 List<Coordinate> movesToAddWhiteRook = new();
 
                 foreach (Tuple<int, int> tuple in orthogonal)
-                    movesToAddWhiteRook.AddRange(WhiteMoveVerify(tuple.Item1, tuple.Item2, pos));
+                    movesToAddWhiteRook.AddRange(MoveVerify(tuple.Item1, tuple.Item2, pos));
 
                 foreach (Coordinate elm in movesToAddWhiteRook)
                     moves.Add(new(pos, elm));
@@ -76,7 +76,7 @@ public class Board
                 List<Coordinate> movesToAddWhiteBishop = new();
 
                 foreach (Tuple<int, int> tuple in diagonal)
-                    movesToAddWhiteBishop.AddRange(WhiteMoveVerify(tuple.Item1, tuple.Item2, pos));
+                    movesToAddWhiteBishop.AddRange(MoveVerify(tuple.Item1, tuple.Item2, pos));
 
                 foreach (Coordinate elm in movesToAddWhiteBishop)
                     moves.Add(new(pos, elm));
@@ -89,10 +89,10 @@ public class Board
                 List<Coordinate> movesToAddWhiteQueen = new();
 
                 foreach (Tuple<int, int> tuple in orthogonal)
-                    movesToAddWhiteQueen.AddRange(WhiteMoveVerify(tuple.Item1, tuple.Item2, pos));
+                    movesToAddWhiteQueen.AddRange(MoveVerify(tuple.Item1, tuple.Item2, pos));
 
                 foreach (Tuple<int, int> tuple in diagonal)
-                    movesToAddWhiteQueen.AddRange(WhiteMoveVerify(tuple.Item1, tuple.Item2, pos));
+                    movesToAddWhiteQueen.AddRange(MoveVerify(tuple.Item1, tuple.Item2, pos));
 
                 foreach (Coordinate elm in movesToAddWhiteQueen)
                     moves.Add(new(pos, elm));
@@ -127,7 +127,7 @@ public class Board
     }
 
 
-    private static List<Coordinate> WhiteMoveVerify(int addToX, int addToY, Coordinate position)
+    private static List<Coordinate> MoveVerify(int addToX, int addToY, Coordinate position)
     {
         List<Coordinate> movesToAdd = new();
         Coordinate pos = position;
@@ -144,7 +144,8 @@ public class Board
                     movesToAdd.Add(position);
 
                 // Se posizione occupata e' nera.
-                else if (Pieces[position.X, position.Y].IsBlack())
+                else if (Pieces[pos.X, pos.Y].IsWhite() && Pieces[position.X, position.Y].IsBlack() || 
+                    Pieces[pos.X, pos.Y].IsBlack() && Pieces[position.X, position.Y].IsWhite())
                 {
                     if (Pieces[position.X, position.Y].IsKing())
                         KingEatenError(pos, new(position.X, position.Y));
