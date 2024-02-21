@@ -18,16 +18,16 @@ public struct Coordinate
     public static readonly Coordinate UpDirection = new(0, -1);
 
 
-    public static readonly List<Coordinate> OrthogonalDirections = new() { LeftDirection, RightDirection, DownDirection, UpDirection };
+    public static readonly Coordinate[] OrthogonalDirections = [LeftDirection, RightDirection, DownDirection, UpDirection];
 
-    public static readonly List<Coordinate> DiagonalDirections = new() { 
+    public static readonly Coordinate[] DiagonalDirections = [
         LeftDirection   + UpDirection, 
         RightDirection  + UpDirection, 
         LeftDirection   + DownDirection, 
         RightDirection  + DownDirection 
-    };
+    ];
 
-    public static readonly List<Coordinate> AllDirections = OrthogonalDirections.Concat(DiagonalDirections).ToList();
+    public static readonly Coordinate[] AllDirections = [.. OrthogonalDirections, .. DiagonalDirections];
 
 
     public int X;
