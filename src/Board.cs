@@ -58,12 +58,12 @@ public class Board
 
             case Piece.WhiteRook:
             case Piece.BlackRook:
-                List<Coordinate> movesToAddWhiteRook = new();
+                List<Coordinate> movesToAddRook = new();
 
                 foreach (Coordinate direction in Coordinate.OrthogonalDirections)
-                    movesToAddWhiteRook.AddRange(MoveVerify(direction, pos));
+                    movesToAddRook.AddRange(MovePropagate(direction, pos));
 
-                foreach (Coordinate elm in movesToAddWhiteRook)
+                foreach (Coordinate elm in movesToAddRook)
                     moves.Add(new(pos, elm));
 
                 break;
@@ -71,12 +71,12 @@ public class Board
 
             case Piece.WhiteBishop:
             case Piece.BlackBishop:
-                List<Coordinate> movesToAddWhiteBishop = new();
+                List<Coordinate> movesToAddBishop = new();
 
                 foreach (Coordinate direction in Coordinate.DiagonalDirections)
-                    movesToAddWhiteBishop.AddRange(MoveVerify(direction, pos));
+                    movesToAddBishop.AddRange(MovePropagate(direction, pos));
 
-                foreach (Coordinate elm in movesToAddWhiteBishop)
+                foreach (Coordinate elm in movesToAddBishop)
                     moves.Add(new(pos, elm));
 
                 break;
@@ -84,12 +84,22 @@ public class Board
 
             case Piece.WhiteQueen:
             case Piece.BlackQueen:
-                List<Coordinate> movesToAddWhiteQueen = new();
+                List<Coordinate> movesToAddQueen = new();
 
                 foreach (Coordinate direction in Coordinate.AllDirections)
-                    movesToAddWhiteQueen.AddRange(MoveVerify(direction, pos));
+                    movesToAddQueen.AddRange(MovePropagate(direction, pos));
 
-                foreach (Coordinate elm in movesToAddWhiteQueen)
+                foreach (Coordinate elm in movesToAddQueen)
+                    moves.Add(new(pos, elm));
+
+                break;
+
+
+            case Piece.WhiteKnight:
+            case Piece.BlackKnight:
+                List<Coordinate> movesToAddKnight = new(ReturnKnightPossibleMoves(pos));
+
+                foreach (Coordinate elm in movesToAddKnight)
                     moves.Add(new(pos, elm));
 
                 break;
@@ -97,6 +107,43 @@ public class Board
 
         return moves;
     }
+
+
+    private static List<Coordinate> ReturnKnightPossibleMoves(Coordinate pos)
+    {
+        List<Coordinate> movesToAdd = new();
+        List<Coordinate> allMoves = new(ReturnAllKnightMoves(pos));
+
+        foreach (Coordinate position in allMoves)
+        {
+            if (OnTheChessBoard(position))
+            {
+                if (MoveVerify(pos, position))
+                {
+                    movesToAdd.Add(position);
+                }
+            }  
+        }
+
+        return movesToAdd;
+    }
+
+
+    private static Coordinate[] ReturnAllKnightMoves(Coordinate position)
+    {
+        Coordinate[] positions = [
+            position.Left().Left().Up(),
+            position.Left().Left().Down(),
+            position.Down().Down().Left(),
+            position.Down().Down().Right(),
+            position.Right().Right().Up(),
+            position.Right().Right().Down(),
+            position.Up().Up().Left(),
+            position.Up().Up().Right()
+        ];
+        return positions;
+    }
+
 
     private static List<Coordinate> NonEmptySquares()
     {
@@ -113,7 +160,7 @@ public class Board
     }
 
 
-    private static bool OffTheChessBoard(Coordinate position)
+    private static bool OnTheChessBoard(Coordinate position)
     {
         if (position.X >= 0 && position.X <= 7 && position.Y >= 0 && position.Y <= 7)
             return true;
@@ -122,7 +169,7 @@ public class Board
     }
 
 
-    private static List<Coordinate> MoveVerify(Coordinate movement, Coordinate position)
+    private static List<Coordinate> MovePropagate(Coordinate movement, Coordinate position)
     {
         List<Coordinate> movesToAdd = new();
         Coordinate pos = position;
@@ -131,27 +178,36 @@ public class Board
         {
             position += movement;
 
-            if (OffTheChessBoard(position))
-            {
-                // Se posizione e' vuota.
-                if (IntExtensions.IsEmpty(position))
-                    movesToAdd.Add(position);
+            if (!OnTheChessBoard(position))
+                return movesToAdd;
 
-                // Se posizione occupata e' nera.
-                else if (Pieces[pos.X, pos.Y].IsWhite() && Pieces[position.X, position.Y].IsBlack() || 
-                    Pieces[pos.X, pos.Y].IsBlack() && Pieces[position.X, position.Y].IsWhite())
-                {
-                    if (Pieces[position.X, position.Y].IsKing())
-                        KingEatenError(pos, new(position.X, position.Y));
-                    movesToAdd.Add(position);
-                    return movesToAdd;
-                }
-                else
-                    return movesToAdd;
+            if (MoveVerify(pos, position))
+                movesToAdd.Add(position);
+        }
+    }
+
+
+    private static bool MoveVerify(Coordinate pos, Coordinate target)
+    {
+        if (OnTheChessBoard(target))
+        {
+            // Se posizione e' vuota.
+            if (IntExtensions.IsEmpty(target))
+                return true;
+
+            // Se posizione occupata e' opposta.
+            else if (Pieces[pos.X, pos.Y].IsWhite() && Pieces[target.X, target.Y].IsBlack() ||
+                Pieces[pos.X, pos.Y].IsBlack() && Pieces[target.X, target.Y].IsWhite())
+            {
+                if (Pieces[target.X, target.Y].IsKing())
+                    KingEatenError(pos, new(target.X, target.Y));
+                return true;
             }
             else
-                return movesToAdd;
+                return false;
         }
+        else
+            return false;
     }
 
 

@@ -11,7 +11,7 @@ public struct Coordinate
 
     public static readonly Coordinate LeftDirection = new(-1, 0);
 
-    public static readonly Coordinate RightDirection = new(-1, 0);
+    public static readonly Coordinate RightDirection = new(1, 0);
 
     public static readonly Coordinate DownDirection = new(0, 1);
 
