@@ -1,27 +1,20 @@
-namespace tests
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Utilities;
+
+[TestClass]
+public class Tests
 {
-    [TestClass]
-    public class Tests : PageTest
+    [TestMethod]
+    public void FenTest()
     {
-        [TestMethod]
-        public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
-        {
-            await Page.GotoAsync("https://playwright.dev");
+        // Arrange
+        string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
-            // Expect a title "to contain" a substring.
-            await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
+        // Act
+        Fen.Decode(fen);
+        string fenResult = Fen.Encode();
 
-            // create a locator
-            var getStarted = Page.Locator("text=Get Started");
-
-            // Expect an attribute "to be strictly equal" to the value.
-            await Expect(getStarted).ToHaveAttributeAsync("href", "/docs/intro");
-
-            // Click the get started link.
-            await getStarted.ClickAsync();
-
-            // Expects the URL to contain intro.
-            await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
-        }
+        // Assert
+        Assert.AreEqual(fen, fenResult);
     }
 }
