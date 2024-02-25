@@ -21,6 +21,7 @@ public class Board
         return allMoves;
     }
 
+
     private static List<Move> GenerateMovesForPiece(Coordinate pos)
     {
         List<Move> moves = new();
@@ -97,9 +98,19 @@ public class Board
 
             case Piece.WhiteKnight:
             case Piece.BlackKnight:
-                List<Coordinate> movesToAddKnight = new(ReturnKnightPossibleMoves(pos));
+                List<Coordinate> movesToAddKnight = new(ReturnPossibleSpecialMoves(pos));
 
                 foreach (Coordinate elm in movesToAddKnight)
+                    moves.Add(new(pos, elm));
+
+                break;
+
+
+            case Piece.WhiteKing:
+            case Piece.BlackKing:
+                List<Coordinate> movesToAddKing = new(ReturnPossibleSpecialMoves(pos));
+
+                foreach (Coordinate elm in movesToAddKing)
                     moves.Add(new(pos, elm));
 
                 break;
@@ -109,18 +120,23 @@ public class Board
     }
 
 
-    private static List<Coordinate> ReturnKnightPossibleMoves(Coordinate pos)
+    private static List<Coordinate> ReturnPossibleSpecialMoves(Coordinate pos)
     {
         List<Coordinate> movesToAdd = new();
-        List<Coordinate> allMoves = new(ReturnAllKnightMoves(pos));
+        Coordinate[] allMoves;
 
-        foreach (Coordinate position in allMoves)
+        if (Pieces[pos.X, pos.Y].IsKing())
+            allMoves = ReturnAllKingMoves(pos);
+        else
+            allMoves = ReturnAllKnightMoves(pos);
+
+        foreach (Coordinate target in allMoves)
         {
-            if (OnTheChessBoard(position))
+            if (OnTheChessBoard(target))
             {
-                if (MoveVerify(pos, position))
+                if (MoveVerify(pos, target) && KingsDistanceVerify(pos, target))
                 {
-                    movesToAdd.Add(position);
+                    movesToAdd.Add(target);
                 }
             }  
         }
@@ -140,6 +156,22 @@ public class Board
             position.Right().Right().Down(),
             position.Up().Up().Left(),
             position.Up().Up().Right()
+        ];
+        return positions;
+    }
+
+
+    public static Coordinate[] ReturnAllKingMoves(Coordinate position)
+    {
+        Coordinate[] positions = [
+            position.Left(),
+            position.Right(),
+            position.Up(),
+            position.Down(),
+            position.Right().Up(),
+            position.Left().Up(),
+            position.Right().Down(),
+            position.Left().Down()
         ];
         return positions;
     }
@@ -214,5 +246,37 @@ public class Board
     private static void KingEatenError(Coordinate eaterPosition, Coordinate kingPosition)
     {
         Console.WriteLine($"\nThe King cannot be taken by {eaterPosition} in {kingPosition}!");
+    }
+
+
+    private static bool KingsDistanceVerify(Coordinate currentKingPosition, Coordinate targetKingPosition)
+    {
+        Coordinate[] opponentKingMoves = [];
+
+        if (Pieces[currentKingPosition.X, currentKingPosition.Y].IsBlack())
+            opponentKingMoves = ReturnAllKingMoves(findKing("white"));
+        else if (Pieces[currentKingPosition.X, currentKingPosition.Y].IsWhite())
+            opponentKingMoves = ReturnAllKingMoves(findKing("black"));
+
+        if (opponentKingMoves.Contains(targetKingPosition))
+            return false;
+        else
+            return true;
+    }
+
+
+    private static Coordinate findKing(string kingColor)
+    {
+        foreach (Coordinate pos in NonEmptySquares())
+        {
+            if (Pieces[pos.X, pos.Y].IsKing())
+            {
+                if (Pieces[pos.X, pos.Y].IsBlack() && kingColor == "black")
+                    return pos;
+                if (Pieces[pos.X, pos.Y].IsWhite() && kingColor == "white")
+                    return pos;
+            }
+        }
+        return new Coordinate(-1, -1);
     }
 }

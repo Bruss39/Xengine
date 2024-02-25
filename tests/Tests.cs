@@ -8,7 +8,8 @@ public class Tests
     public void FenTest()
     {
         // Arrange
-        string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        string fen = "8/2K5/8/4k3/8/8/8/8";
+        // string rights = " w KQkq - 0 1";
 
         // Act
         Fen.Decode(fen);

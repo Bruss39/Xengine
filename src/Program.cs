@@ -2,7 +2,7 @@
 
 // Set initial position.
 Console.Write("Loading board... ");
-Fen.Decode("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+Fen.Decode("8/2K5/8/4k3/8/8/8/8 b - - 0 1");
 Console.WriteLine("Done!");
 Console.WriteLine(Fen.Encode());
 
@@ -17,4 +17,5 @@ Console.WriteLine("Done!");
 foreach (Move move in moves) Console.WriteLine(move);
 
 
-// string rights = " w KQkq - 0 1";
+// BUG IN FenTest!!
+// 8/2K/8/4k/8/8/8/8   rather than   8/2K5/8/4k3/8/8/8/8 b - - 0 1
