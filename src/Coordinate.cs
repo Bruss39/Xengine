@@ -6,7 +6,7 @@
 /// </remarks>
 public struct Coordinate
 {
-    public static string[] FileLetter = { "a", "b", "c", "d", "e", "f", "g", "h"};
+    public static string[] FileLetter = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 
     public static readonly Coordinate LeftDirection = new(-1, 0);
@@ -19,7 +19,7 @@ public struct Coordinate
 
 
     public static readonly Coordinate[] OrthogonalDirections = [LeftDirection, RightDirection, DownDirection, UpDirection];
-
+    
     public static readonly Coordinate[] DiagonalDirections = [
         LeftDirection   + UpDirection, 
         RightDirection  + UpDirection, 

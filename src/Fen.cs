@@ -75,36 +75,34 @@
                     if (Board.Pieces[x, y] == Piece.Empty)
                     {
                         emptyPosNum++;
-                        if (emptyPosNum >= 8)
-                        {
-                            emptyPosNum = addAtEmptyPosNum(emptyPosNum);
-                        }
+                        if (emptyPosNum >= 8) 
+                            AddAndResetEmptyPosNum(ref emptyPosNum);
                     }
 
                     else
                     {
                         // Se posizione occupata dopo successione di una o piu' posizioni vuote, aggiungi emptyPosNum a fen.
                         if (emptyPosNum > 0)
-                        {
-                            emptyPosNum = addAtEmptyPosNum(emptyPosNum);
-                        }
+                            AddAndResetEmptyPosNum(ref emptyPosNum);
 
                         // Aggiungi pezzo a fen.
                         int toSearch = Board.Pieces[x, y];
                         fen += PieceByChar.FirstOrDefault(x => x.Value == toSearch).Key;
                     }
                 }
-                emptyPosNum = 0;
+
+                if (emptyPosNum != 0) 
+                    AddAndResetEmptyPosNum(ref emptyPosNum);
+
                 if (y < 7)
                     fen += "/";
             }
 
 
-            int addAtEmptyPosNum(int n)
+            void AddAndResetEmptyPosNum(ref int emptyPosNum)
             {
-                fen += n.ToString();
-                n = 0;
-                return n;
+                fen += emptyPosNum.ToString();
+                emptyPosNum = 0;
             }
 
             return fen;

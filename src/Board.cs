@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class Board
 {
@@ -134,7 +133,7 @@ public class Board
         {
             if (OnTheChessBoard(target))
             {
-                if (MoveVerify(pos, target) && KingsDistanceVerify(pos, target))
+                if (MoveVerify(pos, target))
                 {
                     movesToAdd.Add(target);
                 }
@@ -249,31 +248,15 @@ public class Board
     }
 
 
-    private static bool KingsDistanceVerify(Coordinate currentKingPosition, Coordinate targetKingPosition)
-    {
-        Coordinate[] opponentKingMoves = [];
-
-        if (Pieces[currentKingPosition.X, currentKingPosition.Y].IsBlack())
-            opponentKingMoves = ReturnAllKingMoves(findKing("white"));
-        else if (Pieces[currentKingPosition.X, currentKingPosition.Y].IsWhite())
-            opponentKingMoves = ReturnAllKingMoves(findKing("black"));
-
-        if (opponentKingMoves.Contains(targetKingPosition))
-            return false;
-        else
-            return true;
-    }
-
-
-    private static Coordinate findKing(string kingColor)
+    private static Coordinate FindKing(Color kingColor)
     {
         foreach (Coordinate pos in NonEmptySquares())
         {
             if (Pieces[pos.X, pos.Y].IsKing())
             {
-                if (Pieces[pos.X, pos.Y].IsBlack() && kingColor == "black")
+                if (Pieces[pos.X, pos.Y].IsBlack() && kingColor == Color.Black)
                     return pos;
-                if (Pieces[pos.X, pos.Y].IsWhite() && kingColor == "white")
+                if (Pieces[pos.X, pos.Y].IsWhite() && kingColor == Color.White)
                     return pos;
             }
         }

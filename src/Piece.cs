@@ -16,3 +16,9 @@
     public const int BlackRook   = 11; // Ok.
     public const int BlackPawn   = 12;
 }
+
+public enum Color
+{
+    White,
+    Black
+}
