@@ -2,7 +2,7 @@
 
 // Set initial position.
 Console.Write("Loading board... ");
-Fen.Decode("8/2K5/8/4k3/8/8/8/8 b - - 0 1");
+Fen.Decode("4K3/8/4N3/8/3qrq2/8/4p3/4K3 w - - 1 1");
 Console.WriteLine("Done!");
 Console.WriteLine(Fen.Encode());
 
